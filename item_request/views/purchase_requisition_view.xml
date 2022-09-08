@@ -56,12 +56,12 @@
                                     <tree editable="bottom">
                                         <field name="requisition_type" groups="item_request.group_purchase_requisition_user,
                                         item_request.group_purchase_requisition_department" readonly="0"/>
-                                        <field name="product_id" attrs="{'readonly': [('parent_state', 'not in', ['draft', 'dept_confirm', 'ir_approve'])]}"/>
+                                        <field name="product_id" options="{'no_quick_create': True, 'no_create_edit':True, 'no_open': True, 'no_create': True}" attrs="{'readonly': [('parent_state', 'not in', ['draft', 'dept_confirm', 'ir_approve'])]}"/>
                                         <field name="description" attrs="{'readonly': [('parent_state', 'not in', ['draft', 'dept_confirm', 'ir_approve'])]}"/>
                                         <field name="qty" attrs="{'readonly': [('parent_state', 'not in', ['draft', 'dept_confirm', 'ir_approve'])]}"/>
-                                        <field name="uom" attrs="{'readonly': [('parent_state', 'not in', ['draft', 'dept_confirm', 'ir_approve'])]}"/>
+                                        <field name="uom" options="{'no_quick_create': True, 'no_create_edit':True, 'no_open': True, 'no_create': True}" attrs="{'readonly': [('parent_state', 'not in', ['draft', 'dept_confirm', 'ir_approve'])]}"/>
                                         <field name="parent_state" invisible="1"/>
-                                        <field name="partner_id" groups="item_request.group_purchase_requisition_user,item_request.group_purchase_requisition_department" attrs="{'readonly': [('requisition_type', '!=', 'purchase')]}" widget="many2many_tags"/>
+                                        <field name="partner_id" options="{'no_quick_create': True, 'no_create_edit':True, 'no_open': True, 'no_create': True}" groups="item_request.group_purchase_requisition_user,item_request.group_purchase_requisition_department" attrs="{'readonly': [('requisition_type', '!=', 'purchase')]}" widget="many2many_tags"/>
                                     </tree>
                                 </field>
                                 <group>
