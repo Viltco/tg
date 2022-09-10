@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ProductInfoPopup" t-inherit="point_of_sale.ProductInfoPopup" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('section-order')]" position="replace">
+            <div class="section-order">
+                        <div class="section-title">
+                            <span>Order</span>
+                            <div class="section-title-line"></div>
+                        </div>
+                        <div class="section-order-body">
+                            <table>
+                                <tr>
+                                    <td>Total Price excl. VAT:</td>
+                                    <td t-esc="orderPriceWithoutTaxCurrency" class="table-value"/>
+                                </tr>
+<!--                                <tr>-->
+<!--                                    <td>Total Cost:</td>-->
+<!--                                    <td t-esc="orderCostCurrency" class="table-value"/>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td>Total Margin:</td>-->
+<!--                                    <td class="table-value"><t t-esc="orderMarginCurrency"/> (<t t-esc="orderMarginPercent"/>%)</td>-->
+<!--                                </tr>-->
+                            </table>
+                        </div>
+                    </div>
+        </xpath>
+
+        <xpath expr="//div[hasclass('section-financials')]" position="replace">
+<div class="section-financials">
+                        <div class="section-title">
+                            <span>Financials</span>
+                            <div class="section-title-line"></div>
+                        </div>
+    <div class="section-financials-body">
+                            <table>
+                                <tr>
+                                    <td>Price excl. VAT:</td>
+                                    <td><t t-esc="env.pos.format_currency(productInfo.all_prices.price_without_tax)"/></td>
+                                </tr>
+                                <!--                                <tr>-->
+                                <!--                                    <td>Cost:</td>-->
+                                <!--                                    <td><t t-esc="costCurrency"/></td>-->
+                                <!--                                </tr>-->
+                                <!--                                <tr>-->
+                                <!--                                    <td>Margin:</td>-->
+                                <!--                                    <td><t t-esc="marginCurrency"/> (<t t-esc="marginPercent"/>%) </td>-->
+                                <!--                                </tr>-->
+                            </table>
+        <table>
+                                <t t-foreach="productInfo.pricelists" t-as="pricelist" t-key="pricelist.name">
+                                    <tr>
+                                        <td t-esc="pricelist.name"/>
+                                        <td t-esc="env.pos.format_currency(pricelist.price)"/>
+                                    </tr>
+                                </t>
+                            </table>
+                        </div>
+                    </div>
+        </xpath>
+    </t>
+</templates>
