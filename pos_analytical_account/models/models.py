@@ -15,8 +15,24 @@ class AccountPaymentInh(models.Model):
 
     analytical_account_id = fields.Many2one('account.analytic.account')
 
+
 class PosSessionInh(models.Model):
     _inherit = 'pos.session'
+
+    def action_assign_account(self):
+        for res in self:
+            if res.config_id.analytical_account_id:
+                all_related_moves = res._get_related_account_moves()
+                for rec in all_related_moves.line_ids:
+                    rec.analytic_account_id = res.config_id.analytical_account_id.id
+
+                for order in res.order_ids:
+                    order.analytical_account_id = res.config_id.analytical_account_id.id
+                pos_payment = self.env['pos.payment'].search([('session_id', '=', res.id)])
+                for i in pos_payment:
+                    i.analytical_account_id = res.config_id.analytical_account_id.id
+                for payment in res.bank_payment_ids:
+                    payment.analytical_account_id = res.config_id.analytical_account_id.id
 
     def action_update_account(self):
         all_related_moves = self._get_related_account_moves()

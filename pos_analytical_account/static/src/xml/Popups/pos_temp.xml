@@ -7,20 +7,22 @@
                             <span>Order</span>
                             <div class="section-title-line"></div>
                         </div>
-                        <div class="section-order-body">
+                <div class="section-order-body">
                             <table>
                                 <tr>
                                     <td>Total Price excl. VAT:</td>
                                     <td t-esc="orderPriceWithoutTaxCurrency" class="table-value"/>
                                 </tr>
-<!--                                <tr>-->
-<!--                                    <td>Total Cost:</td>-->
-<!--                                    <td t-esc="orderCostCurrency" class="table-value"/>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <td>Total Margin:</td>-->
-<!--                                    <td class="table-value"><t t-esc="orderMarginCurrency"/> (<t t-esc="orderMarginPercent"/>%)</td>-->
-<!--                                </tr>-->
+
+                                <!--                                <tr>-->
+                                <!--                                    <td>Total Cost:</td>-->
+                                <!--                                    <td t-esc="orderCostCurrency" class="table-value"/>-->
+                                <!--                                </tr>-->
+                                <!--                                <tr>-->
+                                <!--                                    <td>Total Margin:</td>-->
+                                <!--                                    <td class="table-value"><t t-esc="orderMarginCurrency"/> (<t t-esc="orderMarginPercent"/>%)</td>-->
+                                <!--                                </tr>-->
+
                             </table>
                         </div>
                     </div>
