@@ -93,6 +93,11 @@ class PosSessionInh(models.Model):
             if self.move_id.line_ids:
                 self.move_id.sudo().with_company(self.company_id)._post()
                 # Set the uninvoiced orders' state to 'done'
+                orders = self.env['pos.order'].search([('session_id', '=', self.id), ('state', '=', 'paid'), ('state', '=', 'paid')])
+                print(orders)
+                for order in orders:
+                    if order.incentive_lines:
+                        order.general_entry()
                 self.env['pos.order'].search([('session_id', '=', self.id), ('state', '=', 'paid')]).write(
                     {'state': 'done'})
             else:
@@ -106,6 +111,7 @@ class PosSessionInh(models.Model):
             statement.button_validate()
         self.write({'state': 'closed'})
         self.action_update_account()
+
         return True
 
 
