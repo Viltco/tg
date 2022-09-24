@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+
+         <record id="hr_employee_form_inherited" model="ir.ui.view">
+            <field name="name">hr.employee.inherited</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field type="xml" name="arch">
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <button type="object" name="action_view_incentive" class="oe_stat_button" icon="fa-bars" string="Incentives"/>
+<!--                        <field name="entry_count" widget="statinfo" string="Journal Entry"/>-->
+<!--                    </button>-->
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_move_form_inherited" model="ir.ui.view">
+            <field name="name">account.move.inherited</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field type="xml" name="arch">
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="order_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stock_production_lot_form_inherited" model="ir.ui.view">
+            <field name="name">stock.production.lot.inherited</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field type="xml" name="arch">
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="incentive"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="pos_order_form_inherited" model="ir.ui.view">
+            <field name="name">pos.order.inherited</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field type="xml" name="arch">
+
+                <xpath expr="//field[@name='lines']/tree/field[@name='qty']" position="before">
+                    <field name="incentive"/>
+                </xpath>
+
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <button type="object" name="action_view_entry" class="oe_stat_button" icon="fa-bars" string="Journal Entry"/>
+<!--                        <field name="entry_count" widget="statinfo" string="Journal Entry"/>-->
+<!--                    </button>-->
+                </xpath>
+
+                <xpath expr="//header" position="inside">
+                    <button string="Test" type="object" name="action_add"/>
+                </xpath>
+                <xpath expr="//page[@name='notes']" position="after">
+                    <page string="Incentives">
+                        <field name="incentive_lines" readonly="1">
+                            <tree editable="bottom">
+                                <field name="employee_id"/>
+                                <field name="total_incentive"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
