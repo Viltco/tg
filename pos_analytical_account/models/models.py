@@ -33,6 +33,9 @@ class PosSessionInh(models.Model):
                     i.analytical_account_id = res.config_id.analytical_account_id.id
                 for payment in res.bank_payment_ids:
                     payment.analytical_account_id = res.config_id.analytical_account_id.id
+                moves = self.env['account.move.line'].search([('move_id.order_id', 'in', res.order_ids.ids)])
+                for move in moves:
+                    move.analytic_account_id = res.config_id.analytical_account_id.id
 
     def action_update_account(self):
         all_related_moves = self._get_related_account_moves()
@@ -48,6 +51,9 @@ class PosSessionInh(models.Model):
             payment.analytical_account_id = self.config_id.analytical_account_id.id
             # for i in payment.pos_payment_ids:
             #     i.analytical_account_id = self.config_id.analytical_account_id.id
+        moves = self.env['account.move.line'].search([('move_id.order_id', 'in', self.order_ids.ids)])
+        for move in moves:
+            move.analytic_account_id = self.config_id.analytical_account_id.id
 
     def _validate_session(self, balancing_account=False, amount_to_balance=0, bank_payment_method_diffs=None):
         bank_payment_method_diffs = bank_payment_method_diffs or {}
@@ -111,7 +117,6 @@ class PosSessionInh(models.Model):
             statement.button_validate()
         self.write({'state': 'closed'})
         self.action_update_account()
-
         return True
 
 
