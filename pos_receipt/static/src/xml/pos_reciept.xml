@@ -2,17 +2,47 @@
 <templates id="template" xml:space="preserve">
 
      <t t-name="OrderLinesReceipt" t-inherit="point_of_sale.OrderLinesReceipt" t-inherit-mode="extension" owl="1">
-         <xpath expr="//t[@t-if='isSimple(line)']/div[hasclass('responsive-price')]" position="replace">
-             <t t-set="product_tax" t-value="0"/>
-             <!--             <t t-if="isTaxIncluded">-->
-             <t t-foreach="receipt.tax_details" t-as="tax" t-key="tax.name">
-                    <t t-set="product_tax" t-value="tax.amount"/>
+         <xpath expr="//t[@t-foreach='receipt.orderlines']/t[2]" position="replace">
+             <t t-else="">
+                 <div t-esc="line.product_name_wrapped[0]" />
+                 <WrappedProductNameLines line="line" />
+                 <t t-if="line.display_discount_policy == 'without_discount' and line.price != line.price_lst">
+                    <div class="pos-receipt-left-padding">
+                        <t t-esc="env.pos.format_currency_no_symbol(line.price_lst)" />
+                        ->
+                        <t t-esc="env.pos.format_currency_no_symbol(line.price)" />
+                    </div>
                 </t>
-
-             <!--            </t>-->
+                 <t t-elif="line.discount !== 0">
+                    <div class="pos-receipt-left-padding">
+                        <t t-if="env.pos.config.iface_tax_included === 'total'">
+                            <t t-esc="env.pos.format_currency_no_symbol(line.price_with_tax_before_discount)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="env.pos.format_currency_no_symbol(line.price)"/>
+                        </t>
+                    </div>
+                </t>
+                 <t t-if="line.discount !== 0">
+                    <div class="pos-receipt-left-padding">
+                        Discount: <t t-esc="line.discount" />%
+                    </div>
+                </t>
+                 <div class="pos-receipt-left-padding">
+                    <t t-esc="Math.round(line.quantity * Math.pow(10, env.pos.dp['Product Unit of Measure'])) / Math.pow(10, env.pos.dp['Product Unit of Measure'])"/>
+                     <t t-if="!line.is_in_unit" t-esc="line.unit_name" />
+                     x
+                     <t t-esc="env.pos.format_currency_no_symbol(line.price_display_one)" />
+                     <span class="price_display pos-receipt-right-align">
+                        <t t-esc="env.pos.format_currency_no_symbol(line.price_with_tax)" />
+                    </span>
+                </div>
+            </t>
+         </xpath>
+         <xpath expr="//t[@t-if='isSimple(line)']/div[hasclass('responsive-price')]" position="replace">
              <div class="responsive-price">
                     <t t-esc="line.product_name_wrapped[0]" />
-                 <span t-esc="env.pos.format_currency_no_symbol(line.price_display+product_tax)" class="price_display pos-receipt-right-align"/>
+                 <span t-esc="env.pos.format_currency_no_symbol(line.price_with_tax)" class="price_display pos-receipt-right-align"/>
                 </div>
          </xpath>
          <xpath expr="//t[@t-if='line.pack_lot_lines']" position="replace">
@@ -31,15 +61,15 @@
 
      </t>
 
-<!--    <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">-->
+    <!--    <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">-->
 
-<!--        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="after">-->
-<!--           <t t-if='receipt.client'>-->
-<!--               <div style="font-weight:bold;text-align:center;font-size:12px;"><h4>Customer:<t t-esc='receipt.client.name'/></h4>-->
-<!--                   <t t-esc='receipt.client.street'/><br/>Tax ID:<t t-esc='receipt.client.vat'/>-->
-<!--               </div>-->
-<!--           </t>-->
-<!--        </xpath>-->
+    <!--        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="after">-->
+    <!--           <t t-if='receipt.client'>-->
+    <!--               <div style="font-weight:bold;text-align:center;font-size:12px;"><h4>Customer:<t t-esc='receipt.client.name'/></h4>-->
+    <!--                   <t t-esc='receipt.client.street'/><br/>Tax ID:<t t-esc='receipt.client.vat'/>-->
+    <!--               </div>-->
+    <!--           </t>-->
+    <!--        </xpath>-->
 
-<!--    </t>-->
+    <!--    </t>-->
 </templates>
