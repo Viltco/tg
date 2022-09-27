@@ -52,9 +52,9 @@
 <!--                    </button>-->
                 </xpath>
 
-                <xpath expr="//header" position="inside">
-                    <button string="Test" type="object" name="action_add"/>
-                </xpath>
+<!--                <xpath expr="//header" position="inside">-->
+<!--                    <button string="Test" type="object" name="action_add"/>-->
+<!--                </xpath>-->
                 <xpath expr="//page[@name='notes']" position="after">
                     <page string="Incentives">
                         <field name="incentive_lines" readonly="1">
